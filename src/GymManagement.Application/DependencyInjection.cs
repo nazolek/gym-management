@@ -7,7 +7,11 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddScoped<ISubscriptionService, SubscriptionService>();
+        services.AddMediatR(options =>
+        {
+            options.RegisterServicesFromAssemblyContaining(typeof(DependencyInjection));
+        });
+        services.AddScoped<ISubscriptionWriteService, SubscriptionWriteService>();
 
         return services;
     }
