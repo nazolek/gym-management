@@ -16,11 +16,13 @@ public class CreateSubscriptionCommandHandler : IRequestHandler<CreateSubscripti
 
     public async Task<ErrorOr<Subscription>> Handle(CreateSubscriptionCommand request, CancellationToken cancellationToken)
     {
-        var subscription = new Subscription() {
-            Id = Guid.NewGuid(),
+        var subscription = new Subscription()
+        {
+            Id = request.AdminId,
+            Type = request.SubscriptionType,
         };
-        
-        _subscriptionsRepository.Add(subscription);
+
+        await _subscriptionsRepository.AddAsync(subscription);
 
         return subscription;
     }
